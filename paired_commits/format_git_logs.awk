@@ -11,6 +11,7 @@
 # ->
 # ['file1 file2', 'file1 file3', 'file2 file1', 'file2 file3']
 function get_file_links(file_array, results_collector) {
+  delete results_collector
   result_index = 1
 
   for (linking_file in file_array) {
@@ -46,8 +47,6 @@ BEGIN {
 /^commit/ {
   total_commits += 1
 
-  delete results_collector
-  results_collector[1] = ""
   get_file_links(commit_files, results_collector)
   update_linkage_counts(results_collector)
 
@@ -62,8 +61,6 @@ BEGIN {
 
 END {
   # handle lingering data
-  delete results_collector
-  results_collector[1] = ""
   get_file_links(commit_files, results_collector)
   update_linkage_counts(results_collector)
 
